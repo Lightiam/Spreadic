@@ -9,7 +9,7 @@ interface SelectPlanStepProps {
   userData: {
     selectedPlan: string;
   };
-  updateUserData: (data: any) => void;
+  updateUserData: (data: Record<string, unknown>) => void;
 }
 
 export default function SelectPlanStep({ userData, updateUserData }: SelectPlanStepProps) {

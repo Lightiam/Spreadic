@@ -13,7 +13,7 @@ interface ConnectAccountsStepProps {
       linkedin: boolean;
     };
   };
-  updateUserData: (data: any) => void;
+  updateUserData: (data: Record<string, unknown>) => void;
 }
 
 export default function ConnectAccountsStep({
@@ -106,7 +106,7 @@ export default function ConnectAccountsStep({
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleDisconnect(account.id as any)}
+                      onClick={() => handleDisconnect(account.id as 'instagram' | 'twitter' | 'facebook' | 'linkedin')}
                     >
                       Disconnect
                     </Button>
@@ -114,7 +114,7 @@ export default function ConnectAccountsStep({
                     <Button
                       variant="default"
                       size="sm"
-                      onClick={() => handleConnect(account.id as any)}
+                      onClick={() => handleConnect(account.id as 'instagram' | 'twitter' | 'facebook' | 'linkedin')}
                     >
                       Connect <ExternalLink className="ml-1 h-3 w-3" />
                     </Button>
