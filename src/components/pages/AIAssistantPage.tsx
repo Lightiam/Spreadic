@@ -226,7 +226,7 @@ export default function AIAssistantPageContent() {
                 </Tabs>
               </CardHeader>
               <CardContent>
-                <TabsContent value="post-ideas" className="mt-0">
+                {activeTab === "post-ideas" && (
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -287,9 +287,9 @@ export default function AIAssistantPageContent() {
                       )}
                     </Button>
                   </form>
-                </TabsContent>
+                )}
 
-                <TabsContent value="captions" className="mt-0">
+                {activeTab === "captions" && (
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -356,9 +356,9 @@ export default function AIAssistantPageContent() {
                       )}
                     </Button>
                   </form>
-                </TabsContent>
+                )}
 
-                <TabsContent value="hashtags" className="mt-0">
+                {activeTab === "hashtags" && (
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
@@ -423,7 +423,7 @@ export default function AIAssistantPageContent() {
                       )}
                     </Button>
                   </form>
-                </TabsContent>
+                )}
               </CardContent>
             </Card>
 
