@@ -10,7 +10,9 @@ export async function POST(request: Request) {
     const { paymentMethodId, planId, billingPeriod } = await request.json();
     
     // Map plan to Stripe price ID (same mapping as client-side)
-    let priceId;
+    type PlanId = 'creator' | 'professional' | 'agency';
+    type BillingPeriod = 'monthly' | 'yearly';
+    
     const STRIPE_PRODUCTS = {
       creator: {
         monthly: process.env.STRIPE_CREATOR_MONTHLY_PRICE_ID,
@@ -26,7 +28,7 @@ export async function POST(request: Request) {
       },
     };
     
-    priceId = STRIPE_PRODUCTS[planId]?.[billingPeriod];
+    const priceId = STRIPE_PRODUCTS[planId as PlanId]?.[billingPeriod as BillingPeriod];
     
     if (!priceId) {
       return NextResponse.json(

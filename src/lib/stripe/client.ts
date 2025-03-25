@@ -1,7 +1,7 @@
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { getStripePublishableKey } from './config';
 
-let stripePromise: Promise<any> | null = null;
+let stripePromise: Promise<Stripe | null> | null = null;
 
 export const getStripe = () => {
   if (!stripePromise) {
