@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, HelpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import StripeCheckout from "@/components/payment/StripeCheckout";
 
 export default function PricingPageContent() {
   const [isYearly, setIsYearly] = useState(false);
@@ -167,18 +168,17 @@ export default function PricingPageContent() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button
-                  className={`w-full ${
+                <StripeCheckout
+                  planId={plan.name.toLowerCase() as 'free' | 'creator' | 'professional' | 'agency'}
+                  billingPeriod={isYearly ? 'yearly' : 'monthly'}
+                  className={
                     plan.highlighted
                       ? "purple-gradient-bg border-none"
                       : plan.name === "Free"
                       ? "bg-muted hover:bg-muted/80"
                       : ""
-                  }`}
-                  variant={plan.highlighted ? "default" : "outline"}
-                >
-                  {plan.buttonText}
-                </Button>
+                  }
+                />
               </CardFooter>
             </Card>
           ))}

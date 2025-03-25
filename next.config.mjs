@@ -26,6 +26,16 @@ const nextConfig = {
         hostname: "ugc.same-assets.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "stripe.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "js.stripe.com",
+        pathname: "/**",
+      },
     ],
   },
 };
