@@ -14,7 +14,7 @@ interface SelectedPlan {
 
 interface StripePaymentElementsFormProps {
   selectedPlan: SelectedPlan;
-  onPaymentSuccess: (subscription: any) => void;
+  onPaymentSuccess: (subscription: { subscriptionId: string; status: string; customerId: string }) => void;
 }
 
 const StripePaymentElementsForm: React.FC<StripePaymentElementsFormProps> = ({ 
@@ -124,7 +124,7 @@ const StripePaymentElementsForm: React.FC<StripePaymentElementsFormProps> = ({
 
 interface StripePaymentFormProps {
   selectedPlan: SelectedPlan;
-  onPaymentSuccess: (subscription: any) => void;
+  onPaymentSuccess: (subscription: { subscriptionId: string; status: string; customerId: string }) => void;
 }
 
 export default function StripePaymentForm({ 
