@@ -153,7 +153,7 @@ export default function SchedulerPageContent() {
               </Tabs>
             </CardHeader>
             <CardContent>
-              <TabsContent value="calendar" className="m-0">
+              {viewType === "calendar" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   {scheduledPosts.map((post) => (
                     <Card key={post.id} className="overflow-hidden">
@@ -188,8 +188,8 @@ export default function SchedulerPageContent() {
                     </Card>
                   ))}
                 </div>
-              </TabsContent>
-              <TabsContent value="list" className="m-0">
+              )}
+              {viewType === "list" && (
                 <div className="mt-4 space-y-2">
                   {scheduledPosts.map((post) => (
                     <div key={post.id} className="flex items-center justify-between p-3 rounded-md border hover:bg-muted/50 transition-colors">
@@ -215,7 +215,7 @@ export default function SchedulerPageContent() {
                     </div>
                   ))}
                 </div>
-              </TabsContent>
+              )}
             </CardContent>
           </Card>
         </div>
