@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { CreditCard, CreditCardIcon } from "lucide-react";
+import { CreditCard } from "lucide-react";
+import StripePaymentForm from "@/components/payment/StripePaymentForm";
 
 interface PaymentStepProps {
   userData: {
@@ -17,27 +17,17 @@ interface PaymentStepProps {
   updateUserData: (data: any) => void;
 }
 
-// Simulated Stripe credential input
 export default function PaymentStep({ userData, updateUserData }: PaymentStepProps) {
-  const [stripeKey, setStripeKey] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isKeyValid, setIsKeyValid] = useState(false);
-
-  const handleStripeKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setStripeKey(value);
-
-    // Basic validation - check if it looks like a Stripe key
-    if (value.startsWith('pk_') || value.startsWith('sk_')) {
-      setIsKeyValid(true);
-      setErrorMessage("");
-    } else if (value) {
-      setIsKeyValid(false);
-      setErrorMessage("Please enter a valid Stripe key (starting with pk_ or sk_)");
-    } else {
-      setIsKeyValid(false);
-      setErrorMessage("");
-    }
+  const [paymentProcessed, setPaymentProcessed] = useState(false);
+  
+  const handlePaymentSuccess = (subscriptionData: any) => {
+    // Store subscription info in user data
+    updateUserData({ 
+      subscriptionId: subscriptionData.subscriptionId,
+      customerId: subscriptionData.customerId,
+      paymentProcessed: true,
+    });
+    setPaymentProcessed(true);
   };
 
   const handlePaymentMethodChange = (value: string) => {
@@ -49,6 +39,7 @@ export default function PaymentStep({ userData, updateUserData }: PaymentStepPro
   };
 
   const selectedPlanDetails = {
+    id: userData.selectedPlan,
     name: userData.selectedPlan === "free"
       ? "Free"
       : userData.selectedPlan === "creator"
@@ -58,7 +49,8 @@ export default function PaymentStep({ userData, updateUserData }: PaymentStepPro
       ? 0
       : userData.selectedPlan === "creator"
         ? 19
-        : 49
+        : 49,
+    billingPeriod: 'monthly' as const, // Default to monthly, could be stored in userData
   };
 
   return (
@@ -123,29 +115,16 @@ export default function PaymentStep({ userData, updateUserData }: PaymentStepPro
                 </RadioGroup>
               </div>
 
-              {/* Stripe API Key Input */}
-              <div className="space-y-3">
-                <h3 className="text-lg font-medium mb-4">Connect Your Stripe Account</h3>
-                <div className="space-y-2">
-                  <Label htmlFor="stripeKey" className="font-medium">Your Stripe API Key</Label>
-                  <Input
-                    id="stripeKey"
-                    placeholder="Enter your Stripe API key (pk_live_...)"
-                    value={stripeKey}
-                    onChange={handleStripeKeyChange}
-                    className={errorMessage ? "border-destructive" : isKeyValid ? "border-green-500" : ""}
+              {/* Stripe Payment Form */}
+              {userData.paymentMethod === 'card' && (
+                <div className="space-y-3">
+                  <h3 className="text-lg font-medium mb-4">Card Details</h3>
+                  <StripePaymentForm 
+                    selectedPlan={selectedPlanDetails}
+                    onPaymentSuccess={handlePaymentSuccess}
                   />
-                  {errorMessage && (
-                    <p className="text-xs text-destructive">{errorMessage}</p>
-                  )}
-                  {isKeyValid && (
-                    <p className="text-xs text-green-500">Your Stripe key is valid</p>
-                  )}
-                  <p className="text-xs text-muted-foreground mt-1">
-                    We use this to connect to your Stripe account for payment processing.
-                  </p>
                 </div>
-              </div>
+              )}
 
               {/* Terms and Conditions */}
               <div className="space-y-4">
