@@ -12,7 +12,7 @@ interface PersonalInfoStepProps {
     company: string;
     jobTitle: string;
   };
-  updateUserData: (data: any) => void;
+  updateUserData: (data: Record<string, unknown>) => void;
 }
 
 export default function PersonalInfoStep({ userData, updateUserData }: PersonalInfoStepProps) {

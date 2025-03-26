@@ -14,13 +14,13 @@ interface PaymentStepProps {
     paymentMethod: string;
     agreedToTerms: boolean;
   };
-  updateUserData: (data: any) => void;
+  updateUserData: (data: Record<string, unknown>) => void;
 }
 
 export default function PaymentStep({ userData, updateUserData }: PaymentStepProps) {
   const [paymentProcessed, setPaymentProcessed] = useState(false);
   
-  const handlePaymentSuccess = (subscriptionData: any) => {
+  const handlePaymentSuccess = (subscriptionData: { subscriptionId: string; status: string; customerId: string }) => {
     // Store subscription info in user data
     updateUserData({ 
       subscriptionId: subscriptionData.subscriptionId,

@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import StaticFallback from "@/components/StaticFallback";
 
 export default function DashboardPage() {
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<Record<string, string | number | boolean | Record<string, boolean>> | null>(null);
 
   useEffect(() => {
     // Retrieve user data from local storage

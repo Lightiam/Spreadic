@@ -71,6 +71,9 @@ export default function StripeCheckout({ planId, billingPeriod, className = '' }
       
       // Redirect to Stripe checkout
       const stripe = await getStripe();
+      if (!stripe) {
+        throw new Error('Failed to load Stripe');
+      }
       const { error } = await stripe.redirectToCheckout({
         sessionId: session.id,
       });
